@@ -16,7 +16,7 @@ const WrapperLink = ({ params }: IWrapperLink) => {
                 return (
                     <Link 
                         key={ index } 
-                        className="text-slate-200" 
+                        className="text-indigo-700" 
                         to={ element.link }> 
                         { element.name } 
                     </Link>

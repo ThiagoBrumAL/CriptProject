@@ -1,20 +1,13 @@
 import { Search } from 'lucide-react';
 import { useState, type FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import type { Icoin } from '../../interfaces/Icoin';
 import { InputWrapper } from '../../components/input/InputWrappe';
 import { ButtonWrapper } from '../../components/button/ButtonWrapper';
 import { Table } from '../../components/table/Table';
-
-interface DataProp {
-    data: Icoin[];
-    timestamp: number
-}
+import { getAllCoins } from '../../services/api';
 
 function Home() {
-
-    const key = import.meta.env.VITE_API_KEY
     
     const navigate = useNavigate();
     const [input, setInput] = useState("");
@@ -29,48 +22,6 @@ function Home() {
         navigate(`/detail/${ input }`)
     }
 
-     const getCoins = async () => {
-        const res = await axios.get(`https://rest.coincap.io/v3/assets?limit=5&offset=${ offset }`, {
-            headers: {
-                Authorization: `Bearer ${ key }`
-            }
-        })
-
-        const data:DataProp = await res.data;
-
-        if(res.status === 200){
-
-            const price = Intl.NumberFormat("en-us", {
-                style: "currency",
-                currency: "USD"
-            })
-
-             const priceCompact = Intl.NumberFormat("en-us", {
-                style: "currency",
-                currency: "USD",
-                notation: "compact"
-            })
-
-            const formatedResult = data.data.map((item) => {
-                return {
-                    ...item,
-                    formatedPrice: price.format(Number(item.priceUsd)),
-                    formatedMarketCapUsd: priceCompact.format(Number(item.marketCapUsd)),
-                    formatedVolume: priceCompact.format(Number(item.volumeUsd24Hr)),
-                }
-                
-            })
-
-            if(coins.length > 0){
-                const listCoins = [...coins, ...formatedResult]
-                setCoins(listCoins)
-                return
-            }
-            setCoins(formatedResult)
-            
-        }
-    }
-
     const handleGetMore = () => {
         if(offset === 0) {
             setOffset(10)
@@ -81,7 +32,7 @@ function Home() {
     }
     
     useEffect(() => {
-        getCoins()
+        getAllCoins({ offset, coins, setCoins })
     }, [ offset ])
 
 
