@@ -6,7 +6,7 @@ interface MainProps {
 
 function Main ({ children }: MainProps){
     return (
-        <main className='flex flex-col items-center justify-center px-6'>
+        <main className='flex flex-col items-center justify-center px-6 py-10'>
             { children }
         </main>
     )
