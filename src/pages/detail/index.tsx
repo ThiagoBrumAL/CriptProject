@@ -18,10 +18,10 @@ type DataProps = ResponseData | Error
 
 function Detail() {
 
+    const key = import.meta.env.VITE_API_KEY
+
     const navigate = useNavigate()
     const { cripto } = useParams()
-
-    console.log(cripto);
 
     const [coin, setCoin] = useState<Icoin>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -35,7 +35,7 @@ function Detail() {
             try {
                 const res = await axios.get(`https://rest.coincap.io/v3/assets/${ cripto }`, {
                     headers: {
-                        Authorization: `Bearer ${ "64bd69a70cf404e6761d5ea116ab8985cac5f714f135ba738ad961852bd5fe84" }`
+                        Authorization: `Bearer ${ key }`
                     }
                 })
 
