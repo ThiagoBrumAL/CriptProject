@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { type Icoin } from "../../interfaces/Icoin"
 import { getCoin } from "../../services/api"
 import DetailRoot from "../../components/detailCoin/detailRoot"
+import { ButtonWrapper } from "../../components/button/ButtonWrapper"
+import { Undo2 } from "lucide-react"
 
 function Detail() {
 
@@ -29,7 +31,19 @@ function Detail() {
         )
     }
 
-    return <DetailRoot coin={ coin }/>
+    return (
+        
+        <>
+            <DetailRoot coin={ coin }/>
+            <br />
+            <ButtonWrapper.Root onClick={ () => navigate("/") }>
+                <ButtonWrapper.Text name="Voltar para o início"/>
+                <ButtonWrapper.Icon icon={ Undo2 }/>
+            </ButtonWrapper.Root>
+        </>
+        
+
+    )
 }
 
 export default Detail
